@@ -15,11 +15,8 @@ export const SLMStore = (initState?: Partial<SLMStoreState>) => {
   return createStore<SLMStoreType>((set, get) => ({
     user: undefined,
     setUser: (userEnt: User) =>
-      set((state) => ({
-        user: {
-          ...state.user,
-          ...userEnt,
-        },
+      set(() => ({
+        user: userEnt,
       })),
     ...initState,
   }));

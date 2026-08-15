@@ -10,7 +10,8 @@ export default function Home() {
 
   const logout = async () => {
     const res = await fetch('http://localhost:3000/auth/logout', {
-      method: 'GET',
+      method: 'POST',
+      credentials: 'include',
       headers: {
         'Content-Type': 'application/json',
       },
