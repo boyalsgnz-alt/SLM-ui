@@ -4,6 +4,7 @@ import GlassEffectContainer from '@/app/components/GlassEffectContainer/GlassEff
 import { useState } from 'react';
 import { SLMStore } from '@/app/store/store';
 import { useSLMStore } from '@/app/providers/slm-store-provider';
+import { loginUser } from '@/app/api/auth';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
@@ -11,16 +12,7 @@ export default function LoginPage() {
   const setUser = useSLMStore((s) => s.setUser);
 
   const login = async () => {
-    const res = await fetch('http://localhost:3000/auth/login', {
-      method: 'POST',
-      credentials: 'include',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ email, password }),
-    });
-
-    const data = await res.json();
+    const data = await loginUser({ email, password });
     setUser(data);
   };
   return (
