@@ -2,7 +2,7 @@
 
 import { createContext, useContext, useRef } from 'react';
 import { useStore } from 'zustand';
-import { SLMStore, SLMStoreType } from '@/app/store/store';
+import { SLMStore, SLMStoreState, SLMStoreType } from '@/app/store/store';
 import { User } from '@/app/types/user';
 
 /*  eslint-disable react-hooks/refs */
@@ -14,12 +14,13 @@ export function SLMStoreProvider({
   initData,
 }: {
   children: React.ReactNode;
-  initData: { user: User | undefined };
+  initData: Partial<SLMStoreState>;
 }) {
   const storeRef = useRef<ReturnType<typeof SLMStore> | null>(null);
   if (!storeRef.current) {
     storeRef.current = SLMStore({
       user: initData.user,
+      address: initData.address,
     });
   }
 

@@ -6,10 +6,13 @@ import { useShallow } from 'zustand/react/shallow';
 import { logoutUser, refreshToken } from '@/app/api/auth';
 import { useEffect, useState } from 'react';
 import { useApiActionButton } from '@/app/hooks/useApiActionButton';
+import AddressForm from '@/app/components/stateful/AddressForm';
 
 export default function Home() {
   const [appState, setAppState] = useState('loading');
   const user = useSLMStore(useShallow((s) => s.user));
+  const address = useSLMStore(useShallow((s) => s.address));
+  const setAddress = useSLMStore((s) => s.setAddress);
   const setUser = useSLMStore((s) => s.setUser);
 
   const logout = async () => {
@@ -21,26 +24,22 @@ export default function Home() {
     await refreshToken();
   };
 
-  const sendBtn = useApiActionButton(refresh);
-
   useEffect(() => {
     async function checkRefresh() {
-      try {
-        const usr = await refreshToken();
-        setUser(usr);
-      } catch (e) {
+      const { data } = await refreshToken();
+      if (data) {
+        setAppState('authenticated');
+      } else {
         setAppState('unauthenticated');
       }
-      setAppState('authenticated');
+      setUser(data);
     }
     checkRefresh();
   }, []);
 
   if (appState === 'loading') {
     return (
-      <div className="flex flex-col flex-1 items-center justify-center font-sans bg-alice-blue">
-        <p className="text-black">Loading ...</p>
-      </div>
+      <div className="flex flex-col flex-1 items-center justify-center font-sans bg-alice-blue"></div>
     );
   }
 
@@ -57,12 +56,7 @@ export default function Home() {
             >
               Log out
             </button>
-            <button
-              {...sendBtn}
-              className="text-black border border-black rounded-md py-1 px-3"
-            >
-              Refresh token
-            </button>
+            <AddressForm address={address} setAddress={setAddress} />
           </>
         )}
       </main>
