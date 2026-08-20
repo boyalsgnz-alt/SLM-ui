@@ -2,17 +2,20 @@
 
 import GlassEffectContainer from '@/app/components/GlassEffectContainer/GlassEffectContainer';
 import { useState } from 'react';
-import { SLMStore } from '@/app/store/store';
 import { useSLMStore } from '@/app/providers/slm-store-provider';
 import { loginUser } from '@/app/api/auth';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
   const setUser = useSLMStore((s) => s.setUser);
 
   const login = async () => {
-    const data = await loginUser({ email, password });
+    const { data } = await loginUser({ email, password });
+    if (!data) {
+      setError('Bad credentials');
+    }
     setUser(data);
   };
   return (
@@ -47,6 +50,11 @@ export default function LoginPage() {
           setPassword(e.target.value);
         }}
       />
+      {error !== '' && (
+        <div className={'text-red-600'}>
+          <p>{error}</p>
+        </div>
+      )}
       <button
         onClick={login}
         className="border border-black rounded-md py-1 px-4"
