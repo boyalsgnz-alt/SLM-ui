@@ -3,8 +3,7 @@ import { User } from '@/app/types/user';
 import { Address } from '@/app/types/address';
 
 export interface SLMStoreState {
-  user: User | undefined;
-  address?: Address | undefined;
+  user: User | Partial<User> | undefined;
 }
 
 interface SLMStoreActions {
@@ -24,7 +23,13 @@ export const SLMStore = (initState?: Partial<SLMStoreState>) => {
       })),
     setAddress: (addressEnt: Address) =>
       set(() => ({
-        address: addressEnt,
+        user: {
+          ...get().user,
+          address: {
+            ...get().user?.address,
+            ...addressEnt,
+          },
+        },
       })),
     ...initState,
   }));

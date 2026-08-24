@@ -1,0 +1,14 @@
+@keyframes slide-in {
+    from {
+        transform: translateX(50px);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+.login-window {
+    animation: slide-in 0.5s cubic-bezier(0.5, 0, 0.5, 1) forwards;
+}

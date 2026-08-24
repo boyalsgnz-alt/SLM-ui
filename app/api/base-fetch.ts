@@ -12,7 +12,6 @@ export const baseFetch = async <T>(
   options?: Partial<RequestInit>,
   body?: T,
 ): Promise<ApiResponse<never>> => {
-  console.log(`BaseFetch called with "${path}"`);
   const httpRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL}${path}`, {
     method,
     credentials: 'include',
@@ -51,10 +50,10 @@ function refreshTokenOnce(): Promise<ApiResponse<never>> {
   return refreshPromise;
 }
 
-export async function retryWithRefresh(
-  callToRetry: () => Promise<ApiResponse<never>>,
+export async function retryWithRefresh<T>(
+  callToRetry: () => Promise<ApiResponse<T>>,
   attempt = 0,
-): Promise<ApiResponse<never>> {
+): Promise<ApiResponse<T>> {
   const result = await callToRetry();
   if (result.status === 401 && attempt < 1) {
     try {

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-export const useApiActionButton = (asyncActionFunc: () => Promise<void>) => {
+export function useApiActionButton<T>(asyncActionFunc: () => Promise<T>) {
   const [disabled, setDisabled] = useState(false);
 
   const onClick = async () => {
@@ -13,4 +13,4 @@ export const useApiActionButton = (asyncActionFunc: () => Promise<void>) => {
     disabled,
     onClick,
   };
-};
+}

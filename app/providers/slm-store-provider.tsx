@@ -20,7 +20,6 @@ export function SLMStoreProvider({
   if (!storeRef.current) {
     storeRef.current = SLMStore({
       user: initData.user,
-      address: initData.address,
     });
   }
 
