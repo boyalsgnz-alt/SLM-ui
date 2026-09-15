@@ -1,0 +1,45 @@
+@keyframes wizard-slide-in-forward {
+  from {
+    transform: translateX(48px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes wizard-slide-in-backward {
+  from {
+    transform: translateX(-48px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.wizard-step-forward {
+  animation: wizard-slide-in-forward 0.35s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.wizard-step-backward {
+  animation: wizard-slide-in-backward 0.35s cubic-bezier(0.4, 0, 0.2, 1)
+    forwards;
+}
+
+@keyframes wizard-indicator-grow {
+  from {
+    width: 0.375rem;
+    background-color: rgba(41, 41, 41, 0.2);
+  }
+  to {
+    width: 1.5rem;
+    background-color: #f59e0b;
+  }
+}
+
+.wizard-indicator-active {
+  animation: wizard-indicator-grow 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}

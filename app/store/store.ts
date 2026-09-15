@@ -7,7 +7,7 @@ export interface SLMStoreState {
 }
 
 interface SLMStoreActions {
-  setUser(user: User | undefined): void;
+  setUser(user: User | Partial<User> | undefined): void;
   setAddress(address: Address | undefined): void;
 }
 

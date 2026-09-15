@@ -1,8 +1,14 @@
 import { User } from '@/app/types/user';
-import { baseFetch, retryWithRefresh } from '@/app/api/base-fetch';
+import { ApiResponse, baseFetch, retryWithRefresh } from '@/app/api/base-fetch';
 
 const updateUser = async (body: Partial<User>) => {
+  console.log('right before sending');
+  console.log(body);
   return await retryWithRefresh(() => baseFetch('users/me', 'PATCH', {}, body));
 };
 
-export { updateUser };
+const fetchUser = async (): Promise<ApiResponse<User>> => {
+  return await retryWithRefresh(() => baseFetch('users/me', 'GET', {}));
+};
+
+export { updateUser, fetchUser };

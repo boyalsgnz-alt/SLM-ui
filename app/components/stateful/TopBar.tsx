@@ -42,7 +42,7 @@ const TopBar = () => {
         }}
       />
       <div className={'flex flex-row justify-items-end gap-2 items-center'}>
-        {user && <p className={'flex'}>{user.name}</p>}
+        {user && <p className={'flex'}>{user.firstName}</p>}
         <button
           className={
             'rounded-xl px-3 py-1 font-bold text-amber-500 border-amber-500 border-2 transition duration-350 ease-in-out hover:text-amber-100 hover:bg-amber-500 focus:outline-none focus:shadow-outline'

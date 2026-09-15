@@ -2,10 +2,13 @@ import { Address } from '@/app/types/address';
 
 export interface User {
   _id: string;
-  name: string;
-  age: number;
+  firstName: string;
+  lastName: string;
+  birthdate: Date;
+  gender: string;
   address: Address;
   setupCompleted: boolean;
+  setupStep: number;
 }
 
 export interface LoginDto {

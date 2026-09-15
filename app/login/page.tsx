@@ -1,12 +1,16 @@
 'use client';
 
 import GlassEffectContainer from '@/app/components/GlassEffectContainer/GlassEffectContainer';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useSLMStore } from '@/app/providers/slm-store-provider';
 import { loginUser } from '@/app/api/auth';
 import { useRouter } from 'next/navigation';
+import {
+  fieldClasses,
+  fieldLabelClasses,
+  primaryButtonClasses,
+} from '@/app/styles/form';
 import './login.css';
-import { useShallow } from 'zustand/react/shallow';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -27,55 +31,64 @@ export default function LoginPage() {
 
   return (
     <div
-      className={'flex h-full w-full items-center justify-center login-window'}
+      className={
+        'login-window flex h-full w-full items-center justify-center px-4'
+      }
     >
-      <GlassEffectContainer
-        classes={'min-w-1/3 max-w-2/3 flex-wrap gap-4 items-center p-4 shrink'}
-      >
+      <GlassEffectContainer classes={'w-full max-w-md items-center gap-1 p-8'}>
+        <h1 className={'text-2xl font-bold'}>Welcome back</h1>
+        <p className={'mb-6 text-sm text-foreground/60'}>
+          Sign in to continue to your account.
+        </p>
         <form
           onSubmit={(e) => {
             e.preventDefault();
             void login();
           }}
-          className={'flex flex-col w-full'}
+          className={'flex w-full flex-col gap-4'}
         >
-          <div
-            className={
-              'flex w-full flex-wrap border-b border-b-black pb-2 justify-center'
-            }
-          >
-            Login
+          <div className={'flex flex-col gap-1'}>
+            <label htmlFor="login-email" className={fieldLabelClasses}>
+              Email
+            </label>
+            <input
+              id="login-email"
+              name={'email'}
+              className={fieldClasses}
+              type="email"
+              autoComplete="email"
+              placeholder="you@example.com"
+              value={email}
+              onChange={(e) => {
+                setEmail(e.target.value);
+              }}
+            />
           </div>
-          <input
-            name={'email'}
-            className={
-              'backdrop-blur-sm w-3/4 border bg-blue-50 border-blue-100 rounded-md'
-            }
-            type="email"
-            placeholder="Email"
-            onChange={(e) => {
-              setEmail(e.target.value);
-            }}
-          />
-          <input
-            className={
-              'backdrop-blur-sm w-3/4 border bg-blue-50 border-blue-100 rounded-md'
-            }
-            type="password"
-            placeholder="Password"
-            onChange={(e) => {
-              setPassword(e.target.value);
-            }}
-          />
+          <div className={'flex flex-col gap-1'}>
+            <label htmlFor="login-password" className={fieldLabelClasses}>
+              Password
+            </label>
+            <input
+              id="login-password"
+              name={'password'}
+              className={fieldClasses}
+              type="password"
+              autoComplete="current-password"
+              placeholder="••••••••"
+              value={password}
+              onChange={(e) => {
+                setPassword(e.target.value);
+              }}
+            />
+          </div>
           {error !== '' && (
-            <div className={'text-red-600'}>
-              <p>{error}</p>
+            <div
+              className={'rounded-lg bg-red-50 px-3 py-2 text-sm text-red-600'}
+            >
+              {error}
             </div>
           )}
-          <button
-            type="submit"
-            className="border border-black rounded-md py-1 px-4"
-          >
+          <button type="submit" className={`mt-2 ${primaryButtonClasses}`}>
             Login
           </button>
         </form>

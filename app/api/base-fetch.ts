@@ -1,6 +1,6 @@
 import { refreshToken } from '@/app/api/auth';
 
-interface ApiResponse<T> {
+export interface ApiResponse<T> {
   description: string;
   status: number;
   data: T | undefined;

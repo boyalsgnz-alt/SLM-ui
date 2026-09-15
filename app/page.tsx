@@ -1,23 +1,21 @@
 'use client';
 
-import LoginPage from '@/app/login/LoginPage';
 import { useSLMStore } from '@/app/providers/slm-store-provider';
-import { useShallow } from 'zustand/react/shallow';
-import { logoutUser, refreshToken } from '@/app/api/auth';
+import { refreshToken } from '@/app/api/auth';
 import { useEffect, useState } from 'react';
-import AddressForm from '@/app/components/stateful/AddressForm';
+import { useShallow } from 'zustand/react/shallow';
+import { useRouter } from 'next/navigation';
+import { useFetch } from '@/app/hooks/useApiActionButton';
+import { fetchUser } from '@/app/api/user';
 
 export default function Home() {
   const [appState, setAppState] = useState('loading');
-  const user = useSLMStore(useShallow((s) => s.user));
-  const address = useSLMStore(useShallow((s) => s.user?.address));
-  const setAddress = useSLMStore((s) => s.setAddress);
   const setUser = useSLMStore((s) => s.setUser);
+  const user = useSLMStore(useShallow((s) => s.user));
+  const router = useRouter();
+  const { loading, data: fetchedUser } = useFetch(() => fetchUser());
 
-  const logout = async () => {
-    await logoutUser();
-    setUser(undefined);
-  };
+  console.log(loading, fetchedUser);
 
   useEffect(() => {
     async function checkRefresh() {
@@ -31,6 +29,12 @@ export default function Home() {
     }
     checkRefresh();
   }, []);
+
+  useEffect(() => {
+    if (user && !user.setupCompleted) {
+      router.replace('/setup-wizard');
+    }
+  }, [user]);
 
   if (appState === 'loading') {
     return (
