@@ -22,7 +22,7 @@ const WizardStepZero = ({ user, setUser, direction }: WizardStepProps) => {
       <GlassEffectContainer
         classes={`w-full max-w-md items-center gap-1 p-8 ${slideClass}`}
       >
-        <StepIndicator currentStep={0} totalSteps={2} />
+        <StepIndicator currentStep={0} totalSteps={3} />
         <h1 className={'text-2xl font-bold'}>Tell us about yourself</h1>
         <p className={'mb-6 text-sm text-foreground/60'}>
           A few basics to get your profile set up.

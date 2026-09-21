@@ -5,6 +5,7 @@ import WizardStepOne from '@/app/setup-wizard/step-1';
 import { useSLMStore } from '@/app/providers/slm-store-provider';
 import { useShallow } from 'zustand/react/shallow';
 import WizardStepZero from '@/app/setup-wizard/step-0';
+import WizardStepTwo from '@/app/setup-wizard/step-2';
 import { WizardDirection } from '@/app/setup-wizard/types';
 import './setup-wizard.css';
 
@@ -16,6 +17,10 @@ const compToRender = [
   {
     index: 1,
     component: WizardStepOne,
+  },
+  {
+    index: 2,
+    component: WizardStepTwo,
   },
 ];
 

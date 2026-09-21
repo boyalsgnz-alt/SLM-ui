@@ -1,18 +1,17 @@
+import { useState } from 'react';
 import GlassEffectContainer from '@/app/components/GlassEffectContainer/GlassEffectContainer';
-import AddressForm from '@/app/components/stateful/AddressForm';
-import { Address } from '@/app/types/address';
+import OrganizationSearch from '@/app/components/stateful/OrganizationSearch';
 import StepIndicator from '@/app/setup-wizard/StepIndicator';
 import { WizardStepProps } from '@/app/setup-wizard/types';
+import { Organization } from '@/app/types/organization';
 import { primaryButtonClasses } from '@/app/styles/form';
 import { updateUser } from '@/app/api/user';
 
-const WizardStepOne = ({ user, setUser, direction }: WizardStepProps) => {
-  function setAddress(address: Address) {
-    setUser({ ...user, address });
-  }
+const WizardStepTwo = ({ user, setUser, direction }: WizardStepProps) => {
+  const [selected, setSelected] = useState<Organization>();
 
   function goToPreviousStep() {
-    const prevUser = { ...user, setupStep: 0 };
+    const prevUser = { ...user, setupStep: 1 };
     setUser(prevUser);
     void updateUser(prevUser);
   }
@@ -40,26 +39,27 @@ const WizardStepOne = ({ user, setUser, direction }: WizardStepProps) => {
           >
             ←
           </button>
-          <StepIndicator currentStep={1} totalSteps={3} />
+          <StepIndicator currentStep={2} totalSteps={3} />
         </div>
-        <h1 className={'text-2xl font-bold'}>What&apos;s your address?</h1>
+        <h1 className={'text-2xl font-bold'}>Find your organization</h1>
         <p className={'mb-6 text-sm text-foreground/60'}>
-          We&apos;ll use this to personalize your experience.
+          Search for the organization you belong to.
         </p>
-        <AddressForm address={user.address ?? {}} setAddress={setAddress} />
+        <OrganizationSearch selected={selected} onSelect={setSelected} />
         <button
+          disabled={!selected}
           className={`mt-4 ${primaryButtonClasses}`}
           onClick={() => {
-            const nextUser = { ...user, setupStep: 2 };
+            const nextUser = { ...user, setupCompleted: true };
             setUser(nextUser);
             void updateUser(nextUser);
           }}
         >
-          Continue
+          Finish
         </button>
       </GlassEffectContainer>
     </div>
   );
 };
 
-export default WizardStepOne;
+export default WizardStepTwo;
